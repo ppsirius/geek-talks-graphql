@@ -1,4 +1,4 @@
-## GraphQL Boilerplate base on apollo-sever-express
+## Geek Talks GraphQL server
 
 Project written in Typescript
 
