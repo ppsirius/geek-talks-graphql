@@ -1,68 +1,94 @@
-import mongoose from 'mongoose'
 import {composeWithMongoose} from 'graphql-compose-mongoose'
 import {schemaComposer} from 'graphql-compose'
 
-// STEP 1: DEFINE MONGOOSE SCHEMA AND MODEL
-const LanguagesSchema = new mongoose.Schema({
-  language: String,
-  skill: {
-    type: String,
-    enum: ['basic', 'fluent', 'native'],
-  },
-})
+import {Video} from './models/video'
+import {Category} from './models/category'
+import {Company} from './models/company'
+import {Event} from './models/event'
+import {Tag} from './models/tag'
 
-const UserSchema = new mongoose.Schema({
-  name: String, // standard types
-  age: {
-    type: Number,
-    index: true,
-  },
-  languages: {
-    type: [LanguagesSchema], // you may include other schemas (here included as array of embedded documents)
-    default: [],
-  },
-  contacts: {
-    // another mongoose way for providing embedded documents
-    email: String,
-    phones: [String], // array of strings
-  },
-  gender: {
-    // enum field with values
-    type: String,
-    enum: ['male', 'female', 'ladyboy'],
-  },
-  someMixed: {
-    type: mongoose.Schema.Types.Mixed,
-    description: 'Can be any mixed type, that will be treated as JSON GraphQL Scalar Type',
-  },
-})
-const User = mongoose.model('User', UserSchema)
+const VideoTC = composeWithMongoose(Video)
+const CategoryTC = composeWithMongoose(Category)
+const CompanyTC = composeWithMongoose(Company)
+const EventTC = composeWithMongoose(Event)
+const TagTC = composeWithMongoose(Tag)
 
-// STEP 2: CONVERT MONGOOSE MODEL TO GraphQL PIECES
-const customizationOptions = {} // left it empty for simplicity, described below
-const UserTC = composeWithMongoose(User, customizationOptions)
-
-// STEP 3: Add needed CRUD User operations to the GraphQL Schema
-// via graphql-compose it will be much much easier, with less typing
 schemaComposer.Query.addFields({
-  userById: UserTC.getResolver('findById'),
-  userByIds: UserTC.getResolver('findByIds'),
-  userOne: UserTC.getResolver('findOne'),
-  userMany: UserTC.getResolver('findMany'),
-  userCount: UserTC.getResolver('count'),
-  userConnection: UserTC.getResolver('connection'),
-  userPagination: UserTC.getResolver('pagination'),
+  // Video
+  videoById: VideoTC.getResolver('findById'),
+  videoOne: VideoTC.getResolver('findOne'),
+  videoMany: VideoTC.getResolver('findMany'),
+  videoCount: VideoTC.getResolver('count'),
+  videoConnection: VideoTC.getResolver('connection'),
+  videoPagination: VideoTC.getResolver('pagination'),
+
+  // Category
+  categoryOne: CategoryTC.getResolver('findOne'),
+  categoryMany: CategoryTC.getResolver('findMany'),
+
+  // Company
+  companyOne: CompanyTC.getResolver('findOne'),
+  companyMany: CompanyTC.getResolver('findMany'),
+
+  // Event
+  eventOne: EventTC.getResolver('findOne'),
+  eventMany: EventTC.getResolver('findMany'),
+
+  // Tag
+  tagOne: TagTC.getResolver('findOne'),
+  tagMany: TagTC.getResolver('findMany'),
 })
 
 schemaComposer.Mutation.addFields({
-  userCreateOne: UserTC.getResolver('createOne'),
-  userCreateMany: UserTC.getResolver('createMany'),
-  userUpdateById: UserTC.getResolver('updateById'),
-  userUpdateOne: UserTC.getResolver('updateOne'),
-  userUpdateMany: UserTC.getResolver('updateMany'),
-  userRemoveById: UserTC.getResolver('removeById'),
-  userRemoveOne: UserTC.getResolver('removeOne'),
-  userRemoveMany: UserTC.getResolver('removeMany'),
+  // Video
+  videoCreateOne: VideoTC.getResolver('createOne'),
+  videoCreateMany: VideoTC.getResolver('createMany'),
+  videoUpdateById: VideoTC.getResolver('updateById'),
+  videoUpdateOne: VideoTC.getResolver('updateOne'),
+  videoUpdateMany: VideoTC.getResolver('updateMany'),
+  videoRemoveById: VideoTC.getResolver('removeById'),
+  videoRemoveOne: VideoTC.getResolver('removeOne'),
+  videoRemoveMany: VideoTC.getResolver('removeMany'),
+
+  // Category
+  categoryCreateOne: CategoryTC.getResolver('createOne'),
+  categoryCreateMany: CategoryTC.getResolver('createMany'),
+  categoryUpdateById: CategoryTC.getResolver('updateById'),
+  categoryUpdateOne: CategoryTC.getResolver('updateOne'),
+  categoryUpdateMany: CategoryTC.getResolver('updateMany'),
+  categoryRemoveById: CategoryTC.getResolver('removeById'),
+  categoryRemoveOne: CategoryTC.getResolver('removeOne'),
+  categoryRemoveMany: CategoryTC.getResolver('removeMany'),
+
+  // Category
+  companyCreateOne: CompanyTC.getResolver('createOne'),
+  companyCreateMany: CompanyTC.getResolver('createMany'),
+  companyUpdateById: CompanyTC.getResolver('updateById'),
+  companyUpdateOne: CompanyTC.getResolver('updateOne'),
+  companyUpdateMany: CompanyTC.getResolver('updateMany'),
+  companyRemoveById: CompanyTC.getResolver('removeById'),
+  companyRemoveOne: CompanyTC.getResolver('removeOne'),
+  companyRemoveMany: CompanyTC.getResolver('removeMany'),
+
+  // Event
+  eventCreateOne: EventTC.getResolver('createOne'),
+  eventCreateMany: EventTC.getResolver('createMany'),
+  eventUpdateById: EventTC.getResolver('updateById'),
+  eventUpdateOne: EventTC.getResolver('updateOne'),
+  eventUpdateMany: EventTC.getResolver('updateMany'),
+  eventRemoveById: EventTC.getResolver('removeById'),
+  eventRemoveOne: EventTC.getResolver('removeOne'),
+  eventRemoveMany: EventTC.getResolver('removeMany'),
+
+  // Tag
+  tagCreateOne: TagTC.getResolver('createOne'),
+  tagCreateMany: TagTC.getResolver('createMany'),
+  tagUpdateById: TagTC.getResolver('updateById'),
+  tagUpdateOne: TagTC.getResolver('updateOne'),
+  tagUpdateMany: TagTC.getResolver('updateMany'),
+  tagRemoveById: TagTC.getResolver('removeById'),
+  tagRemoveOne: TagTC.getResolver('removeOne'),
+  tagRemoveMany: TagTC.getResolver('removeMany'),
 })
 
 const graphqlSchema = schemaComposer.buildSchema()

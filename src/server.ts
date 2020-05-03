@@ -1,8 +1,6 @@
 import express from 'express'
 import {ApolloServer} from 'apollo-server-express'
 import config from '../config'
-// import typeDefs from './typeDefs'
-// import resolvers from './resolvers'
 import {connectMongo} from './utils/db'
 import graphqlSchema from './schema'
 

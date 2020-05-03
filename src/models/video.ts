@@ -15,4 +15,4 @@ export const videoSchema = new mongoose.Schema({
   poster: String,
 })
 
-export const Viedo = mongoose.model('Viedo', videoSchema)
+export const Video = mongoose.model('Video', videoSchema)
