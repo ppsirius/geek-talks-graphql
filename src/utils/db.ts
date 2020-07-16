@@ -21,6 +21,6 @@ mongoose.connection.on('error', (error): void => {
   console.log('ERROR: ' + error)
 })
 
-export const connectMongo = async (): Promise => {
+export const connectMongo = async (): Promise<any> => {
   await mongoose.connect(config.mongoUri, {useNewUrlParser: true, useUnifiedTopology: true})
 }
